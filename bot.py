@@ -2,7 +2,7 @@ from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 # 🔴 توکن ربات (اینجا بگذار)
-TOKEN = "توکن_ربات_اینجا"
+TOKEN = "7572855587:AAGfeCPagVcyfWClV939PXFhZyq8Se354No"
 
 # 🔵 آیدی تو (ادمین)
 ADMIN_ID = 68797657
