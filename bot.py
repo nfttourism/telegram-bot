@@ -1,15 +1,12 @@
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
-# 🔴 توکن ربات (اینجا بگذار)
 TOKEN = "7572855587:AAGfeCPagVcyfWClV939PXFhZyq8Se354No"
-
-# 🔵 آیدی تو (ادمین)
 ADMIN_ID = 68797657
 
 user_data = {}
 
-# 🏠 شروع ربات
+# 🏠 start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [["🛍 محصولات"]]
 
@@ -18,7 +15,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     )
 
-# 🛍 لیست محصولات
+# 🛍 محصولات
 async def products(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         ["وکیوم برقی شارژی آقایان"],
@@ -48,7 +45,7 @@ async def product(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [["🛒 ثبت سفارش"]]
 
     await update.message.reply_text(
-        f"📦 {update.message.text}\n\n💰 برای ثبت سفارش روی دکمه زیر بزنید 👇",
+        f"📦 {update.message.text}\n\nبرای ثبت سفارش روی دکمه بزن 👇",
         reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
     )
 
@@ -64,7 +61,7 @@ async def order(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "بعد از پرداخت، نام خود را وارد کنید:"
     )
 
-# 🧠 گرفتن اطلاعات مشتری
+# 🧠 اطلاعات مشتری
 async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     text = update.message.text
@@ -74,10 +71,10 @@ async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if "name" not in user_data[user_id]:
         user_data[user_id]["name"] = text
-        await update.message.reply_text("شماره تماس را وارد کنید:")
+        await update.message.reply_text("شماره تماس:")
     elif "phone" not in user_data[user_id]:
         user_data[user_id]["phone"] = text
-        await update.message.reply_text("آدرس کامل را وارد کنید:")
+        await update.message.reply_text("آدرس:")
     elif "address" not in user_data[user_id]:
         user_data[user_id]["address"] = text
 
@@ -98,14 +95,14 @@ async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         user_data.pop(user_id)
 
-# 🚀 اجرا
+# 🚀 main
 def main():
     app = Application.builder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.Regex("🛍 محصولات"), products))
 
-    products_list = [
+    product_list = [
         "وکیوم برقی شارژی آقایان",
         "کرم روشن کننده پولونکس",
         "کرم حجم دهنده پولونکس S6",
@@ -121,7 +118,7 @@ def main():
         "اسپری تاخیری گالاردو 212",
     ]
 
-    for p in products_list:
+    for p in product_list:
         app.add_handler(MessageHandler(filters.Regex(p), product))
 
     app.add_handler(MessageHandler(filters.Regex("🛒 ثبت سفارش"), order))
